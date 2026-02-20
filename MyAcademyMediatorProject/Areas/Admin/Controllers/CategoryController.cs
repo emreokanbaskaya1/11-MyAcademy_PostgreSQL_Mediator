@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MyAcademyMediatorProject.MediatorPattern.Commands.CategoryCommands;
 using MyAcademyMediatorProject.MediatorPattern.Queries.CategoryQueries;
 
 namespace MyAcademyMediatorProject.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController(IMediator _mediator) : Controller
     {
         public async Task<IActionResult> Index()
@@ -17,5 +19,21 @@ namespace MyAcademyMediatorProject.Areas.Admin.Controllers
             var category = await _mediator.Send(new GetCategoryByIdQuery(id));
             return View(category);
         }
+
+        public IActionResult CreateCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCategory(CreateCategoryCommand command)
+        {
+            await _mediator.Send(command);
+            return RedirectToAction("Index");
+
+        }
+
+
+
     }
 }
