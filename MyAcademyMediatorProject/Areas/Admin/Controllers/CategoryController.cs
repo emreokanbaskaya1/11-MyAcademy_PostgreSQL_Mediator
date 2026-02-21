@@ -20,6 +20,13 @@ namespace MyAcademyMediatorProject.Areas.Admin.Controllers
             return View(category);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateCategory(UpdateCategoryCommand command)
+        {
+            await _mediator.Send(command);
+            return RedirectToAction("Index");
+        }
+
         public IActionResult CreateCategory()
         {
             return View();
@@ -33,6 +40,11 @@ namespace MyAcademyMediatorProject.Areas.Admin.Controllers
 
         }
 
+        public async Task<IActionResult> DeleteCategory(Guid Id)
+        {
+            await _mediator.Send(new RemoveCategoryCommand(Id));
+            return RedirectToAction("Index");
+        }
 
 
     }
